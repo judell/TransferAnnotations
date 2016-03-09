@@ -1,5 +1,4 @@
 from hypothesis import HypothesisUtils, HypothesisAnnotation
-import json
 
 source_usernames = ['USER1', 'USER2']
 urls = ['URL1', 'URL2']
