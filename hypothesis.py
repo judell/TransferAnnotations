@@ -24,7 +24,7 @@ class HypothesisUtils:
         self.query_url_template = 'https://%s/api/search?{query}' % self.domain
         self.group = group if group is not None else '__world__'
         self.single_page_limit = 200 if limit is None else limit  # per-page, the api honors limit= up to (currently) 200
-        self.multi_page_limit = 200 if max_results is None else max_results  # limit for paginated results
+        self.multi_page_limit = 1000 if max_results is None else max_results  # limit for paginated results
         self.permissions = {
                 "read": ['group:' + self.group],
                 "update": ['acct:' + self.username + '@hypothes.is'],
@@ -83,6 +83,11 @@ class HypothesisUtils:
         data = json.dumps(payload)
         r = requests.post(self.api_url + '/annotations', headers=headers, data=data.encode('utf-8'))
         return r
+
+    def delete_annotation(self, id):
+       headers = {'Authorization': 'Bearer ' + self.token, 'Content-Type': 'application/json;charset=utf-8' }
+       r = requests.delete(self.api_url + '/annotations/' + id, headers=headers)
+       return r
 
     def search_all(self, params={}):
         """Call search API with pagination, return rows """
